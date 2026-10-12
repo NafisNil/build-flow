@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+        $middleware->alias([
+            'tenant' => \App\Http\Middleware\EnsureHasCompany::class,
+        ]);
 
         $middleware->web(append: [
             HandleAppearance::class,

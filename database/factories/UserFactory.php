@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 /**
@@ -24,7 +26,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $companyId = null;
+
+        if (Schema::hasTable('companies')) {
+            $company = Company::query()->firstOrCreate([
+                'name' => 'Default Company',
+            ]);
+            $companyId = $company->id;
+        }
+
         return [
+            'company_id' => $companyId,
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

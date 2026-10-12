@@ -4,7 +4,9 @@ namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
+use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -24,10 +26,21 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
+        $companyId = null;
+
+        if (Schema::hasTable('companies')) {
+            $company = Company::query()->firstOrCreate(
+                ['name' => trim($input['company'] ?? $input['name']) ?: 'Default Company'],
+                ['nhbc_registration_number' => null, 'domain' => null],
+            );
+            $companyId = $company->id;
+        }
+
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
+            'company_id' => $companyId,
         ]);
     }
 }

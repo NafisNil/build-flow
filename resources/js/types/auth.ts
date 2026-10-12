@@ -7,6 +7,14 @@ export type User = {
     two_factor_enabled?: boolean;
     created_at: string;
     updated_at: string;
+    company_id?: number;
+    company?: {
+        id: number;
+        name: string;
+        created_at: string;
+        updated_at: string;
+    };
+    roles?: string[];
     [key: string]: unknown;
 };
 

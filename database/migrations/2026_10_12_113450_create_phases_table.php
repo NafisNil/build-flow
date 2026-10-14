@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('phases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->integer('sequence_order');
+            $table->string('status')->default('pending');
+            $table->date('target_completion_date')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('plots', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->string('plot_number');
+            $table->string('house_type')->nullable();
+            $table->string('status')->default('off-plan');
             $table->timestamps();
         });
     }

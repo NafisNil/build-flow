@@ -19,5 +19,10 @@ class Project extends Model
     {
         return $this->hasMany(Phase::class)->orderBy('sequence_order');
     }
+
+    public function costs()
+    {
+        return $this->hasMany(Cost::class);
+    }
     
 }

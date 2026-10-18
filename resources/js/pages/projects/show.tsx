@@ -128,7 +128,11 @@ export default function ProjectShow({ project }: { project: Project }) {
                             {project.plots.map((plot) => (
                                 <li key={plot.id} className="py-3 flex justify-between">
                                     <div className="flex items-center gap-x-3">
-                                        <p className="text-sm font-semibold leading-6 text-gray-900">{plot.plot_number}</p>
+                                        <p className="text-sm font-semibold leading-6 text-gray-900">
+                                            <a href={`/plots/${plot.id}`} className="text-sm font-bold leading-6 text-blue-600 hover:text-blue-900 underline">
+                                                {plot.plot_number}
+                                            </a>
+                                        </p>
                                         <p className="text-sm text-gray-500">{plot.house_type}</p>
                                     </div>
                                     <span className="text-xs leading-6 text-gray-500 capitalize">{plot.status}</span>

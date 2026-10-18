@@ -14,4 +14,9 @@ class Plot extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function progress()
+    {
+        return $this->hasMany(PlotPhase::class);
+    }
 }

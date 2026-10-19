@@ -19,4 +19,14 @@ class Plot extends Model
     {
         return $this->hasMany(PlotPhase::class);
     }
+
+    public function defects()
+    {
+        return $this->hasMany(Defect::class);
+    }
+
+    public function buyer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

@@ -109,10 +109,26 @@ export default function PlotShow({ plot }: { plot: Plot }) {
 
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900">
-                        Plot {plot.plot_number} Progress
-                    </h1>
-                    <p className="text-sm text-gray-500">{plot.house_type}</p>
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900">
+                            Plot {plot.plot_number} Progress
+                        </h1>
+                        <p className="text-sm text-gray-500">{plot.house_type}</p>
+                    </div>
+                    
+                    {/* Add the PDF Export Button */}
+                    <a 
+                        href={`/plots/${plot.id}/handover-report`} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    >
+                        <svg className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fillRule="evenodd" d="M10 3a.75.75 0 01.75.75v7.69l2.22-2.22a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 111.06-1.06l2.22 2.22V3.75A.75.75 0 0110 3z" clipRule="evenodd" />
+                            <path d="M4 13a.75.75 0 01.75.75v2a.5.5 0 00.5.5h9.5a.5.5 0 00.5-.5v-2a.75.75 0 011.5 0v2a2 2 0 01-2 2h-9.5a2 2 0 01-2-2v-2A.75.75 0 014 13z" />
+                        </svg>
+                        Export Compliance PDF
+                    </a>
                 </div>
 
                 <div className="bg-white p-6 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">

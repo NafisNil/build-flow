@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
         $middleware->alias([
             'tenant' => \App\Http\Middleware\EnsureHasCompany::class,
+            'super-admin' => \App\Http\Middleware\SuperAdmin::class,
         ]);
 
         $middleware->web(append: [

@@ -9,6 +9,8 @@ use App\Http\Controllers\CostController;
 use App\Http\Controllers\DefectController;
 use App\Http\Controllers\BuyerPortalController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\SubscriptionController;
 
 
 Route::inertia('/', 'welcome')->name('home');
@@ -31,6 +33,13 @@ Route::middleware(['auth', 'verified', 'tenant'])->group(function () {
 
     Route::get('/my-home', [BuyerPortalController::class, 'index'])->name('buyer.portal');
     Route::get('/plots/{plot}/handover-report', [ReportController::class, 'generateHandoverBundle'])->name('reports.handover');
+
+    Route::get('/billing', [SubscriptionController::class, 'index'])->name('billing.index');
+    Route::post('/billing/checkout', [SubscriptionController::class, 'checkout'])->name('billing.checkout');
+    Route::get('/billing/portal', [SubscriptionController::class, 'portal'])->name('billing.portal');
+});
+Route::middleware(['auth', 'verified', 'super-admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('tenants', [TenantController::class, 'index'])->name('tenants');
 });
 
 require __DIR__.'/settings.php';

@@ -1,10 +1,17 @@
 <x-mail::message>
-# Introduction
+# Build Milestone Reached!
 
-The body of your message.
+Great news! Construction on **Plot {{ $plotNumber }}** at **{{ $projectName }}** has officially completed a major phase:
 
-<x-mail::button :url="''">
-Button Text
+<x-mail::panel>
+**Phase Passed:** {{ $phaseName }}  
+**Date Completed:** {{ $completedAt }}
+</x-mail::panel>
+
+You can log in to your buyer portal anytime to view updated milestone photos and compliance documentation.
+
+<x-mail::button :url="config('app.url') . '/my-home'">
+View Buyer Portal
 </x-mail::button>
 
 Thanks,<br>

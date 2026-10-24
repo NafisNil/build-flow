@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PlotPhase;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PhaseCompletedMail;
 class PlotProgressController extends Controller
 {
     //
@@ -33,6 +34,13 @@ class PlotProgressController extends Controller
         }
 
         $plotPhase->update($updateData);
+
+        if($validated['status'] === 'completed') {
+            $plotPhase->load(['plot.buyer', 'plot.project', 'phase']);
+            if($plotPhase->plot->buyer?->email) {
+                Mail::to($plotPhase->plot->buyer->email)->send(new PhaseCompletedMail($plotPhase));
+            }
+        }
 
         return redirect()->back()->with('success', 'Plot progress updated successfully.');
     }

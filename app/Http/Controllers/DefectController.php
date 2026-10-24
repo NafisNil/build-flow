@@ -7,6 +7,8 @@ use App\Models\Defect;
 use App\Models\Plot;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DefectReportedMail;
 
 class DefectController extends Controller
 {
@@ -38,7 +40,10 @@ class DefectController extends Controller
             $data['photo_path'] = Storage::put('defects', $validated['photo']);
         }
 
-        $plot->defects()->create($data);
+        $defect = $plot->defects()->create($data);
+        $defect->load(['plot.project']);
+        $companyEmail = $request->user()->company->email ?? $request->user()->email;
+        Mail::to($companyEmail)->send(new DefectReportedMail($defect));
         return redirect()->back();
     }
 

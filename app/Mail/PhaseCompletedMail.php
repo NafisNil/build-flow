@@ -9,6 +9,8 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\PlotPhase;
+
 
 class PhaseCompletedMail extends Mailable
 {
@@ -17,7 +19,9 @@ class PhaseCompletedMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public PlotPhase $plotPhase;
+
+    public function __construct(PlotPhase $plotPhase)
     {
         //
     }
@@ -28,7 +32,7 @@ class PhaseCompletedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Phase Completed Mail',
+            subject: "Build Milestone Reached: {$this->plotPhase->phase->name} - Plot {$this->plotPhase->plot->plot_number}",
         );
     }
 
@@ -39,6 +43,12 @@ class PhaseCompletedMail extends Mailable
     {
         return new Content(
             markdown: 'emails.phase-completed',
+            with: [
+                'phaseName' => $this->plotPhase->phase->name,
+                'plotNumber' => $this->plotPhase->plot->plot_number,
+                'projectName' => $this->plotPhase->plot->project->name,
+                'completedAt' => $this->plotPhase->completed_at?->format('d M, Y'),
+            ],
         );
     }
 

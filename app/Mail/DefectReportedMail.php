@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Defect;
 
 class DefectReportedMail extends Mailable
 {
@@ -17,7 +18,9 @@ class DefectReportedMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public Defect $defect;
+
+    public function __construct(Defect $defect)
     {
         //
     }
@@ -28,7 +31,7 @@ class DefectReportedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Defect Reported Mail',
+            subject: "Defect Reported: Plot {$this->defect->plot->plot_number} - ({$this->defect->category})",
         );
     }
 
@@ -39,6 +42,13 @@ class DefectReportedMail extends Mailable
     {
         return new Content(
             markdown: 'emails.defect-reported',
+            with: [
+                'title' => $this->defect->title,
+                'category' => strtoupper($this->defect->category),
+                'description' => $this->defect->description,
+                'projectName' => $this->defect->plot->project->name,
+                'plotNumber' => $this->defect->plot->plot_number,
+            ]
         );
     }
 
